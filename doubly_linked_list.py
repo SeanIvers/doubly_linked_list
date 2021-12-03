@@ -65,7 +65,35 @@ class DList:
 
     # delete an existing node
     def delete_value(self, val):
-        pass
+        if self.head != None:
+            if self.head.value == val:
+                if self.is_circular():
+                    self.head.next.previous = self.tail
+                    self.tail.next = self.head.next
+                    self.head = self.head.next
+                    return self
+                self.head = self.head.next
+                return self
+            current_node = self.head
+            if self.is_circular():
+                while current_node != self.tail:
+                    if current_node.value == val:
+                        current_node.previous.next = current_node.next
+                        current_node.next.previous = current_node.previous
+                        return self
+                self.tail.previous.next = self.head # if val is self.tail.value and list is circular
+                self.head.previous = self.tail.previous
+            if self.tail.value == val:
+                self.tail.previous.next = None
+                self.tail = self.tail.previous
+                return self
+            while current_node != None:
+                current_node = current_node.next
+                if current_node.value == val:
+                    current_node.previous.next = current_node.next
+                    current_node.next.previous = current_node.previous
+                    return self
+        return self
 
     # insert a node between existing node with given value
     def insert_at_value(self, val):
@@ -93,5 +121,7 @@ class DList:
 dll2 = DList()
 # dll.add_to_front(3).add_to_front(2).add_to_front(1).print_values()
 # print(dll.head.value, dll.tail.value)
-dll2.add_to_back(0).add_to_back(1).add_to_back(2).print_values()
+dll2.add_to_back(0).add_to_back(1).add_to_back(2).add_to_back(3).print_values()
 print(dll2.head.value, dll2.tail.value)
+print(dll2.tail.next == dll2.head)
+dll2.delete_value(3).print_values()
