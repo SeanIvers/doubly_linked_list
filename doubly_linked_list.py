@@ -29,7 +29,6 @@ class DList:
             new_node.next = self.head
             self.head.previous = new_node
             self.head = new_node
-            print("test")
             return self
         current_head = self.head
         new_node.next = current_head
@@ -39,18 +38,19 @@ class DList:
     # add a node to the end of the list
     def add_to_back(self, val):
         new_node = DLNode(val)
-        if self.head == None:
+        if self.head.previous == self.tail:
+            self.tail.next = new_node
+            new_node.previous = self.tail
+            new_node.next = self.head
+            self.head.previous = new_node
+            self.tail = new_node
+            return self
+        elif self.head == None:
             self.add_to_front(val)
             return self
         elif self.tail == None:
             self.head.next = new_node
             new_node.previous = self.head
-            self.tail = new_node
-            return self
-        elif self.is_circular():
-            self.tail.next = new_node
-            new_node.previous = self.tail
-            new_node.next = self.head
             self.tail = new_node
             return self
         self.tail.next = new_node
@@ -61,7 +61,7 @@ class DList:
     # print the values
     def print_values(self):
         node = self.head
-        if self.is_circular():
+        if self.head.previous == self.tail:
             while node.next != self.head:
                 print(node.value)
                 node = node.next
@@ -78,40 +78,40 @@ class DList:
         return self
 
     # delete an existing node
-    def delete_value(self, val):
-        current_node = self.head
-        if self.is_circular():
-            while current_node != self.tail:
-                if current_node.value == val:
-                    print(current_node.value)
-                    current_node.previous.next = current_node.next
-                    print(current_node.previous.next.value)
-                    current_node.next.previous = current_node.previous
-                    print(current_node.next.previous.value)
-                    return self
-                current_node = current_node.next
-            self.tail.previous.next = self.head # if val is self.tail.value and list is circular
-            self.head.previous = self.tail.previous
-        if self.head != None:
-            if self.head.value == val:
-                if self.is_circular():
-                    self.head.next.previous = self.tail
-                    self.tail.next = self.head.next
-                    self.head = self.head.next
-                    return self
-                self.head = self.head.next
-                return self
-            if self.tail.value == val:
-                self.tail.previous.next = None
-                self.tail = self.tail.previous
-                return self
-            while current_node != None:
-                current_node = current_node.next
-                if current_node.value == val:
-                    current_node.previous.next = current_node.next
-                    current_node.next.previous = current_node.previous
-                    return self
-        return self
+    # def delete_value(self, val):
+    #     current_node = self.head
+    #     if self.is_circular():
+    #         while current_node != self.tail:
+    #             if current_node.value == val:
+    #                 print(current_node.value)
+    #                 current_node.previous.next = current_node.next
+    #                 print(current_node.previous.next.value)
+    #                 current_node.next.previous = current_node.previous
+    #                 print(current_node.next.previous.value)
+    #                 return self
+    #             current_node = current_node.next
+    #         self.tail.previous.next = self.head # if val is self.tail.value and list is circular
+    #         self.head.previous = self.tail.previous
+    #     if self.head != None:
+    #         if self.head.value == val:
+    #             if self.is_circular():
+    #                 self.head.next.previous = self.tail
+    #                 self.tail.next = self.head.next
+    #                 self.head = self.head.next
+    #                 return self
+    #             self.head = self.head.next
+    #             return self
+    #         if self.tail.value == val:
+    #             self.tail.previous.next = None
+    #             self.tail = self.tail.previous
+    #             return self
+    #         while current_node != None:
+    #             current_node = current_node.next
+    #             if current_node.value == val:
+    #                 current_node.previous.next = current_node.next
+    #                 current_node.next.previous = current_node.previous
+    #                 return self
+    #     return self
 
     # insert a node between existing node with given value
     def insert_at_value(self, val):
@@ -121,11 +121,11 @@ class DList:
     def insert_at(self, val, n):
         pass
 
-    # test if circular linked list
-    # def is_circular(self):
-    #     if self.tail.next == self.head:
-    #         return True
-    #     return False
+    # make circular
+    def make_circular(self):
+        self.tail.next = self.head
+        self.head.previous = self.tail
+        return self
 
     # remove duplicate values
     def remove_duplicate_values(self):
@@ -139,13 +139,11 @@ class DList:
 dll2 = DList()
 # dll.add_to_front(3).add_to_front(2).add_to_front(1).print_values()
 # print(dll.head.value, dll.tail.value)
-dll2.add_to_back(0).add_to_back(1).add_to_back(2).add_to_back(3)
-
-dll2.tail.next = dll2.head
-print(dll2.tail.next == dll2.head)
-dll2.delete_value(3).add_to_front(3).print_values()
+# dll2.add_to_back(0).add_to_back(1).add_to_back(2).add_to_back(3)
+dll2.add_to_front(2).add_to_front(1).add_to_front(-1).make_circular().print_values()
+# print(dll2.tail.next == dll2.head)
 print(dll2.head.value, dll2.tail.value)
-dll2.add_to_front(2).print_values()
+dll2.add_to_back(2).print_values()
 
 
 
