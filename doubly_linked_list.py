@@ -78,12 +78,11 @@ class DList:
     def insert_at(self, val, n):
         pass
 
-    # test if circular liked list
-    def is_circular(self):
-        pass
-
+    # make circular
     def make_circular(self):
-        pass
+        self.tail.next = self.head
+        self.head.previous = self.tail
+        return self
 
     # remove duplicate values
     def remove_duplicate_values(self):
