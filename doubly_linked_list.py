@@ -68,7 +68,29 @@ class DList:
 
     # delete an existing node
     def delete_value(self, val):
-        pass
+        if self.head != None:
+            if val == self.head.value:
+                if self.tail == None:
+                    self.head = None
+                    return self
+                elif self.head.next == self.tail:
+                    self.head = self.tail
+                    self.head.previous = None
+                    return self
+                self.head.next.previous = None
+                self.head = self.head.next
+                return self
+            current_node = self.head
+            while current_node != self.tail:
+                if current_node.value == val:
+                    current_node.previous.next = current_node.next
+                    current_node.next.previous = current_node.previous
+                    return self
+                current_node = current_node.next
+            self.tail.previous.next = None
+            self.tail = self.tail.previous
+            return self
+        return self
 
     # insert a node between existing node with given value
     def insert_at_value(self, val):
@@ -95,4 +117,5 @@ class DList:
 dll = DList()
 # dll.add_to_front(3).add_to_front(2).add_to_front(1).add_to_front(0)
 # print("\n")
-dll.add_to_back(4).add_to_back(5).add_to_back(6).print_values().print_reverse()
+# dll.add_to_back(4).add_to_back(5).add_to_back(6).print_values().print_reverse()
+dll.add_to_front(0).add_to_back(1).add_to_back(2).add_to_back(3).delete_value(3).print_values().print_reverse()
