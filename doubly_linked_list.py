@@ -30,7 +30,25 @@ class DList:
 
     # add a node to the end of the list
     def add_to_back(self, val):
-        pass
+        new_node = DLNode(val)
+        if self.head == None:
+            self.add_to_front(val)
+            return self
+        elif self.tail == None:
+            self.head.next = new_node
+            new_node.previous = self.head
+            self.tail = new_node
+            return self
+        elif self.is_circular():
+            self.tail.next = new_node
+            new_node.previous = self.tail
+            new_node.next = self.head
+            self.tail = new_node
+            return self
+        self.tail.next = new_node
+        new_node.previous = self.tail
+        self.tail = new_node
+        return self
 
     # print the values
     def print_values(self):
@@ -71,6 +89,9 @@ class DList:
     def reverse_values(self):
         pass
 
-dll = DList()
-dll.add_to_front(3).add_to_front(2).add_to_front(1).print_values()
-print(dll.head.value, dll.tail.value)
+# dll = DList()
+dll2 = DList()
+# dll.add_to_front(3).add_to_front(2).add_to_front(1).print_values()
+# print(dll.head.value, dll.tail.value)
+dll2.add_to_back(0).add_to_back(1).add_to_back(2).print_values()
+print(dll2.head.value, dll2.tail.value)
