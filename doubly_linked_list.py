@@ -94,11 +94,47 @@ class DList:
 
     # insert a node between existing node with given value
     def insert_at_value(self, val):
-        pass
+        new_node = DLNode(val)
+        current_node = self.head
+        if self.head != None:
+            if self.head.value == val:
+                self.add_to_front(val)
+                return self
+            while current_node != None:
+                if current_node.value == val:
+                    new_node.previous = current_node.previous
+                    new_node.next = current_node
+                    current_node.previous.next = new_node
+                    current_node.previous = new_node
+                    return self
+                current_node = current_node.next
+        return self
 
     # insert a node at a certain index n
     def insert_at(self, val, n):
-        pass
+        new_node = DLNode(val)
+        counter = 0
+        current_node = self.head
+        if self.head != None:
+            if n == 0:
+                self.add_to_front(val)
+                return self
+            while counter != n:
+                counter += 1
+                if current_node.next == None and n == counter:
+                    self.add_to_back(val)
+                    return self
+                elif current_node.next == None:
+                    print("Index out of range")
+                    return self
+                current_node = current_node.next
+                if counter == n:
+                    new_node.previous = current_node.previous
+                    new_node.next = current_node
+                    current_node.previous.next = new_node
+                    current_node.previous = new_node
+                    return self
+        return self
 
     # make circular
     def make_circular(self):
@@ -118,4 +154,5 @@ dll = DList()
 # dll.add_to_front(3).add_to_front(2).add_to_front(1).add_to_front(0)
 # print("\n")
 # dll.add_to_back(4).add_to_back(5).add_to_back(6).print_values().print_reverse()
-dll.add_to_front(0).add_to_back(1).add_to_back(2).add_to_back(3).delete_value(3).print_values().print_reverse()
+dll.add_to_front(0).add_to_back(1).add_to_back(2).insert_at(-1, 4).print_values().print_reverse()
+print(dll.head.value, dll.tail.value)
