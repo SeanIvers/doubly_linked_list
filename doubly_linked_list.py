@@ -150,6 +150,9 @@ class DList:
     def reverse_values(self):
         pass
 
+    def is_circular(self):
+        return self.head.previous == self.tail
+
 dll = DList()
 # dll.add_to_front(3).add_to_front(2).add_to_front(1).add_to_front(0)
 # print("\n")
