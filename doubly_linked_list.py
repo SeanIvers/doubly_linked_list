@@ -143,8 +143,17 @@ class DList:
         return self
 
     # remove duplicate values
-    def remove_duplicate_values(self):
-        pass
+    def remove_duplicate_values(self, val):
+        current_node = self.head
+        next_node = self.head
+        while next_node != None:
+            if current_node.value == val:
+                next_node = current_node.next
+            if next_node.value == val:
+                self.delete_value(val)
+            current_node = current_node.next
+            next_node = next_node.next
+        return self
 
     # reverse values in the list
     def reverse_values(self):
@@ -157,5 +166,6 @@ dll = DList()
 # dll.add_to_front(3).add_to_front(2).add_to_front(1).add_to_front(0)
 # print("\n")
 # dll.add_to_back(4).add_to_back(5).add_to_back(6).print_values().print_reverse()
-dll.add_to_front(0).add_to_back(1).add_to_back(2).insert_at(-1, 4).print_values().print_reverse()
+dll.add_to_front(1).add_to_back(1).add_to_back(2).insert_at(2, 3).add_to_back(4)
+dll.remove_duplicate_values(2).print_values().print_reverse()
 print(dll.head.value, dll.tail.value)
